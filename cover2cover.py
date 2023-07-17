@@ -58,8 +58,8 @@ def guess_filename(path_to_class):
     return (m.group(1) if m else path_to_class) + '.java'
 
 def add_counters(source, target):
-    target.set('line-rate',   counter(source, 'LINE'))
-    target.set('branch-rate', counter(source, 'BRANCH'))
+    target.set('line-rate',   counter(source, 'LINE', fraction))
+    target.set('branch-rate', counter(source, 'BRANCH', fraction))
     target.set('complexity', counter(source, 'COMPLEXITY', sum))
 
 def fraction(covered, missed):
@@ -68,7 +68,7 @@ def fraction(covered, missed):
 def sum(covered, missed):
     return covered + missed
 
-def counter(source, type, operation=fraction):
+def counter(source, type, operation):
     cs = source.findall('counter')
     c = next((ct for ct in cs if ct.attrib.get('type') == type), None)
 
