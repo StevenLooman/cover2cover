@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import sys
 import xml.etree.ElementTree as ET
 import re
@@ -142,12 +142,12 @@ def jacoco2cobertura(filename, source_roots):
 
     into = ET.Element('coverage')
     convert_root(root, into, source_roots)
-    print '<?xml version="1.0" ?>'
-    print ET.tostring(into)
+    print('<?xml version="1.0" ?>')
+    print(ET.tostring(into).decode('utf-8'))
 
 if __name__ == '__main__':
     if len(sys.argv) < 2:
-        print "Usage: cover2cover.py FILENAME [SOURCE_ROOTS]"
+        print("Usage: cover2cover.py FILENAME [SOURCE_ROOTS]")
         sys.exit(1)
 
     filename    = sys.argv[1]
