@@ -12,7 +12,8 @@ def find_lines(j_package, filename):
     lines = list()
     sourcefiles = j_package.findall("sourcefile")
     for sourcefile in sourcefiles:
-        if sourcefile.attrib.get("name") == os.path.basename(filename):
+        #if sourcefile.attrib.get("name") == os.path.basename(filename):
+        if sourcefile.attrib.get("name") == filename:
             lines = lines + sourcefile.findall("line")
     return lines
 
@@ -53,9 +54,9 @@ def convert_lines(j_lines, into):
         else:
             cline.set('branch', 'false')
 
-def guess_filename(path_to_class):
-    m = re.match('([^$]*)', path_to_class)
-    return (m.group(1) if m else path_to_class) + '.java'
+#def guess_filename(path_to_class):
+#    m = re.match('([^$]*)', path_to_class)
+#    return (m.group(1) if m else path_to_class) + '.java'
 
 def add_counters(source, target):
     target.set('line-rate',   counter(source, 'LINE', fraction))
@@ -93,7 +94,7 @@ def convert_method(j_method, j_lines):
 def convert_class(j_class, j_package):
     c_class = ET.Element('class')
     c_class.set('name',     j_class.attrib['name'].replace('/', '.'))
-    c_class.set('filename', guess_filename(j_class.attrib['name']))
+    c_class.set('filename', j_class.attrib['sourcefilename'])
 
     all_j_lines = list(find_lines(j_package, c_class.attrib['filename']))
 
